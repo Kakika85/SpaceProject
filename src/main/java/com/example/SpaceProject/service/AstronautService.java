@@ -11,6 +11,6 @@ public class AstronautService {
     private final AstronautRepository astronautRepository;
 
     Astronaut findAstronautByName(String firstName, String lastName) {
-        return astronautRepository.findAstronautByName(firstName, lastName);
+        return astronautRepository.findByFirstNameAndLastName(firstName,lastName);
     }
 }

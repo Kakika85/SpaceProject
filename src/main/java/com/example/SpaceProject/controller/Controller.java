@@ -10,4 +10,8 @@ public class Controller {
     public String test() {
         return "Moje prva stranka";
     }
+    @GetMapping("/asd")
+    public String myFirstEndPoint() {
+        return "Můj xy první End Point";
+    }
 }

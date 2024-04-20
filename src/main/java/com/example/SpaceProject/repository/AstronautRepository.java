@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AstronautRepository extends JpaRepository<Astronaut,Long> {
-    Astronaut findAstronautByName(String firstname,String lastName);
+    Astronaut findByFirstNameAndLastName(String firstname,String lastName);
 }

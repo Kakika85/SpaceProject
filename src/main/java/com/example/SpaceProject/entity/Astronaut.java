@@ -2,10 +2,10 @@ package com.example.SpaceProject.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jdk.jfr.DataAmount;
 import lombok.Data;
 import lombok.Generated;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data

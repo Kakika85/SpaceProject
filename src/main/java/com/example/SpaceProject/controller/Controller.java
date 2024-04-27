@@ -33,17 +33,7 @@ public class Controller {
         Astronaut astronaut = Astronaut.builder().firstName(name).lastName(lastName).build();
 
         return astronaut;
-
-    @GetMapping("/stranka")
-    public String test() {
-        return "Moje prva stranka";
     }
-
-    @GetMapping("/asd")
-    public String myFirstEndPoint() {
-        return "Můj xy první End Point";
-    }
-
 
     @GetMapping("/saveAstronauts")
     public String saveAstronauts() throws JsonProcessingException {

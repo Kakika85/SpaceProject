@@ -7,13 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Controller {
     @GetMapping("/stranka")
-    public String test(){
-        return "Moja prva stranka";
+    public String test() {
+        return "Moje prva stranka";
     }
-
-@GetMapping("/asd")
+    @GetMapping("/asd")
     public String myFirstEndPoint() {
-        return "Můj první End Point";
-}
-
+        return "Můj xy první End Point";
+    }
 }

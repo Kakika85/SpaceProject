@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 public class AstronautService {
     private final AstronautRepository astronautRepository;
 
-
-
-    Astronaut findAstronautByName(String firstName, String lastName){
+    Astronaut findAstronautByName(String firstName, String lastName) {
         return astronautRepository.findByFirstNameAndLastName(firstName,lastName);
     }
 }

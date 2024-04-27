@@ -1,6 +1,8 @@
 package com.example.SpaceProject.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jdk.jfr.DataAmount;
 import lombok.*;
@@ -13,7 +15,7 @@ import lombok.*;
 public class Astronaut {
 
     @Id
-    @Generated
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String firstName;
     private String lastName;

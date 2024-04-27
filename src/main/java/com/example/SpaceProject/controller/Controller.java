@@ -1,9 +1,11 @@
 package com.example.SpaceProject.controller;
 
 import com.example.SpaceProject.entity.Astronaut;
+import com.example.SpaceProject.service.AstronautService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -13,7 +15,11 @@ import java.util.List;
 
 @org.springframework.stereotype.Controller
 @RestController
+@RequiredArgsConstructor
 public class Controller {
+
+    private final AstronautService astronautService;
+
     @GetMapping("/stranka")
     public String test() {
         return "Moje prva stranka";
@@ -53,6 +59,6 @@ public class Controller {
 //            craftRepository.save(existingCraft); todo finish when repository will be created
         }
 
-        return astronautList.toString();
+        return astronautService.saAllAstronauts(astronautList).toString();
     }
 }

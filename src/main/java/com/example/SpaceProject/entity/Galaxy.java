@@ -13,11 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class Astronaut {
 
+public class Galaxy {
     @Id
     @Generated
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String galaxyName;
 }

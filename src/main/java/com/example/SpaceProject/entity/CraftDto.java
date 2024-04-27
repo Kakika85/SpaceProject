@@ -13,11 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class Astronaut {
 
+public class CraftDto {
     @Id
     @Generated
     private Long id;
-    private String firstName;
-    private String lastName;
 }

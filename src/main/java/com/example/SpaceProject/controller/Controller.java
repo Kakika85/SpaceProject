@@ -1,6 +1,8 @@
 package com.example.SpaceProject.controller;
 
 import com.example.SpaceProject.entity.Astronaut;
+import com.example.SpaceProject.entity.Craft;
+import com.example.SpaceProject.repository.CraftRepository;
 import com.example.SpaceProject.service.AstronautService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -24,15 +26,12 @@ public class Controller {
     //private final Ultiservice utilService;
     //private final AstronautRepoository astronautRepoository;
     // private final MissionService missionService;
-    // private final CraftRepository craftRepository;
+     private final CraftRepository craftRepository;
     // private final CraftMapper craftMapper;
 
-    @GetMapping("/stranka/{name}/{lastName}")
-    public Astronaut test(@PathVariable String name,
-                          @PathVariable String lastName) {
-        Astronaut astronaut = Astronaut.builder().firstName(name).lastName(lastName).build();
-
-        return astronaut;
+    @GetMapping("/stranka/{name}")
+    public Craft test(@PathVariable String name) {
+        return Craft.builder().name(name).build();
     }
 
     @GetMapping("/saveAstronauts")

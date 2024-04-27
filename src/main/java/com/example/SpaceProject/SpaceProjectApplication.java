@@ -13,7 +13,7 @@ public class SpaceProjectApplication {
 	public static void main(String[] args) {
 
 		ConfigurableApplicationContext applicationContext = SpringApplication.run(SpaceProjectApplication.class, args);
-		logger.info("Aplikace běží na adrese: http://localhost:{}", applicationContext.getEnvironment().getProperty("local.server.port"));
+		logger.info("Aplikace běží na adrese: http://localhost:{}", applicationContext.getEnvironment().getProperty("local.server.port").concat("/saveAstronauts"));
 	}
 
 }

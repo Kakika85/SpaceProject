@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,6 +20,19 @@ import java.util.List;
 public class Controller {
 
     private final AstronautService astronautService;
+
+    //private final Ultiservice utilService;
+    //private final AstronautRepoository astronautRepoository;
+    // private final MissionService missionService;
+    // private final CraftRepository craftRepository;
+    // private final CraftMapper craftMapper;
+
+    @GetMapping("/stranka/{name}/{lastName}")
+    public Astronaut test(@PathVariable String name,
+                          @PathVariable String lastName) {
+        Astronaut astronaut = Astronaut.builder().firstName(name).lastName(lastName).build();
+
+        return astronaut;
 
     @GetMapping("/stranka")
     public String test() {

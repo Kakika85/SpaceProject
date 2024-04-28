@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,7 @@ public class Controller {
     // private final MissionService missionService;
 
     @GetMapping("/stranka/{name}")
-    public Craft test(@PathVariable String name) {
+    public Craft test(@RequestParam String name) {
         return Craft.builder().name(name).build();
     }
 
@@ -98,7 +99,7 @@ public class Controller {
         return modelAndView;
     }
 
-    @GetMapping("/deleteAstronaut")
+    @DeleteMapping("/deleteAstronaut")
     public Astronaut delete(@RequestParam String name,
                             @RequestParam String lastName) {
         Astronaut astronaut = Astronaut.builder().firstName(name).lastName(lastName).build();

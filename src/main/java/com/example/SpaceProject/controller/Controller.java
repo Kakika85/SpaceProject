@@ -112,8 +112,15 @@ public class Controller {
     public Astronaut assignAstronautToCraft(@RequestBody AssignAstronautToCraft body) {
         Astronaut astronaut = astronautService.findAstronautByName(body.getFirstName(), body.getLastName());
         Craft craft = craftService.findCraftByName(body.getCraftName());
+        if (craft.getAstronauts().contains(astronaut)){
+            throw new RuntimeException("This astronaut is already assigned to this craft.");
+        }
 
         astronaut.setCraft(craft);
+        List<Astronaut> astronautList = craft.getAstronauts();
+        astronautList.add(astronaut);
+        craft.setAstronauts(astronautList);
+        craftService.saveCraft(craft);
 
         return astronautService.saveAstronaut(astronaut);
     }

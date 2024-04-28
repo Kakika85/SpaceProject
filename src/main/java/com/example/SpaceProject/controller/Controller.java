@@ -99,7 +99,6 @@ public class Controller {
     @DeleteMapping("/deleteAstronaut")
     public Astronaut delete(@RequestParam String name,
                             @RequestParam String lastName) {
-        Astronaut astronaut = Astronaut.builder().firstName(name).lastName(lastName).build();
         astronautService.deleteAstronautByName(name, lastName);
         //todo localhost:8081/deleteAstronaut?name=Jozko&lastName=Mrkvicka
 

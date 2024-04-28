@@ -65,4 +65,11 @@ public class Controller {
 
         return astronautService.saAllAstronauts(astronautList).toString();
     }
+    @GetMapping("/deleteAstronauts")
+    public Astronaut delete(@PathVariable String name,
+                            @PathVariable String lastName) {
+        Astronaut astronaut = Astronaut.builder().firstName(name).lastName(lastName).build();
+
+        return astronaut;
+    }
 }

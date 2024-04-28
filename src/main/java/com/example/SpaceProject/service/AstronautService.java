@@ -19,4 +19,9 @@ public class AstronautService {
     public List<Astronaut> saAllAstronauts(List<Astronaut> astronautList){
        return astronautRepository.saveAll(astronautList);
     }
+
+    public void deleteAstronautByName(String firstName, String lastName) {
+        astronautRepository.delete(findAstronautByName(firstName, lastName));
+    }
+
 }

@@ -13,10 +13,18 @@ public class AstronautService {
     private final AstronautRepository astronautRepository;
 
     public Astronaut findAstronautByName(String firstName, String lastName) {
-        return astronautRepository.findByFirstNameAndLastName(firstName,lastName);
+        return astronautRepository.findByFirstNameAndLastName(firstName, lastName);
     }
 
-    public List<Astronaut> saAllAstronauts(List<Astronaut> astronautList){
-       return astronautRepository.saveAll(astronautList);
+    public List<Astronaut> saAllAstronauts(List<Astronaut> astronautList) {
+        return astronautRepository.saveAll(astronautList);
+    }
+
+    public void deleteAstronautByName(String firstName, String lastName) {
+        if (findAstronautByName(firstName, lastName) != null) {
+            astronautRepository.delete(findAstronautByName(firstName, lastName));
+        } else {
+            System.err.println("not found in database");
+        }
     }
 }

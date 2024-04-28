@@ -1,5 +1,6 @@
 package com.example.SpaceProject.service;
 
+import com.example.SpaceProject.entity.Astronaut;
 import com.example.SpaceProject.entity.Craft;
 import com.example.SpaceProject.entity.CraftDto;
 import com.example.SpaceProject.repository.CraftRepository;
@@ -11,11 +12,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class CraftService {
-        private final CraftRepository craftRepository;
+    private final CraftRepository craftRepository;
 
     public CraftDto mapCraftToCraftDTO(Craft craft) {
         return new CraftDto(craft.getName(), craft.getAstronauts().size());
     }
+
     public Craft saveCraft(Craft craft) {
         Craft craft1 = craftRepository.findByName(craft.getName());
 
@@ -25,5 +27,9 @@ public class CraftService {
             log.error("Craft is exists.");
             return craft1;
         }
+    }
+
+    public Craft findCraftByName(String name) {
+        return craftRepository.findByName(name);
     }
 }

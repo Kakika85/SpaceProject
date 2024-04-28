@@ -1,5 +1,6 @@
 package com.example.SpaceProject.controller;
 
+import com.example.SpaceProject.entity.AssignAstronautToCraft;
 import com.example.SpaceProject.entity.Astronaut;
 import com.example.SpaceProject.entity.Craft;
 import com.example.SpaceProject.repository.AstronautRepository;
@@ -14,6 +15,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -24,7 +27,6 @@ import java.util.List;
 
 import static org.hibernate.query.sqm.tree.SqmNode.log;
 
-@org.springframework.stereotype.Controller
 @RestController
 @RequiredArgsConstructor
 public class Controller {
@@ -67,16 +69,18 @@ public class Controller {
             String name = astronautNode.get("name").asText();
             String craftName = astronautNode.get("craft").asText();
 
-            craftService.saveCraft(Craft.builder().name(craftName).build());
+            Craft craft = craftService.saveCraft(Craft.builder().name(craftName).build());
 
             String[] nameParts = name.split(" ");
             String firstName = nameParts[0];
             String lastName = nameParts[1];
 
             Astronaut astronaut = Astronaut.builder()
-                    .firstName(firstName)
-                    .lastName(lastName)
-                    .build();
+                .firstName(firstName)
+                .lastName(lastName)
+                .craft(craft)
+                .build();
+
             astronautList.add(astronaut);
 
 //            craftRepository.save(existingCraft); todo finish when repository will be created
@@ -102,5 +106,15 @@ public class Controller {
         //todo localhost:8081/deleteAstronaut?name=Jozko&lastName=Mrkvicka
 
         return astronaut;
+    }
+
+    @PostMapping("/assignAstronautToCraft")
+    public Astronaut assignAstronautToCraft(@RequestBody AssignAstronautToCraft body) {
+        Astronaut astronaut = astronautService.findAstronautByName(body.getFirstName(), body.getLastName());
+        Craft craft = craftService.findCraftByName(body.getCraftName());
+
+        astronaut.setCraft(craft);
+
+        return astronautService.saveAstronaut(astronaut);
     }
 }

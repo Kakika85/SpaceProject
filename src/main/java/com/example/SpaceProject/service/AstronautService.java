@@ -27,4 +27,7 @@ public class AstronautService {
             System.err.println("not found in database");
         }
     }
+    public Astronaut saveAstronaut(Astronaut astronaut) {
+        return astronautRepository.save(astronaut);
+    }
 }

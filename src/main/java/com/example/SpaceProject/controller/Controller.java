@@ -1,7 +1,13 @@
 package com.example.SpaceProject.controller;
 
 import com.example.SpaceProject.entity.Astronaut;
+import com.example.SpaceProject.entity.Craft;
+import com.example.SpaceProject.repository.AstronautRepository;
+import com.example.SpaceProject.repository.CraftRepository;
 import com.example.SpaceProject.service.AstronautService;
+import com.example.SpaceProject.service.CraftService;
+import com.example.SpaceProject.service.UtilServices;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,9 +17,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.hibernate.query.sqm.tree.SqmNode.log;
 
 @org.springframework.stereotype.Controller
 @RestController
@@ -21,21 +30,26 @@ import java.util.List;
 public class Controller {
 
     private final AstronautService astronautService;
+    private final UtilServices utilService;
+    private final CraftService craftService;
 
-    //private final Ultiservice utilService;
-    //private final AstronautRepoository astronautRepoository;
     // private final MissionService missionService;
-    // private final CraftRepository craftRepository;
-    // private final CraftMapper craftMapper;
 
-    @GetMapping("/stranka/{name}/{lastName}")
-    public Astronaut test(@PathVariable String name,
-                          @PathVariable String lastName) {
-        Astronaut astronaut = Astronaut.builder().firstName(name).lastName(lastName).build();
-
-        return astronaut;
+    @GetMapping("/stranka/{name}")
+    public Craft test(@PathVariable String name) {
+        return Craft.builder().name(name).build();
     }
 
+    /* @GetMapping("/getCraftByAstronaut/{name}/{lastName}")
+     public String getCraftByAstronaut(@PathVariable String name,
+                                       @PathVariable String lastName) {
+         Craft c = craftRepository.findCraftByAstronautsNameAndLastName(name, lastName);
+         craftRepository.findByName(c.getName());
+         craftRepository.findByName(utilService.getSizeOfCraftCraw(c.getName()).toString());
+
+         return craftRepository.findCraftByAstronautsNameAndLastName(c).toString();
+     }
+ */
     @GetMapping("/saveAstronauts")
     public String saveAstronauts() throws JsonProcessingException {
         String apiUrl = "http://api.open-notify.org/astros.json";
@@ -46,10 +60,14 @@ public class Controller {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(jsonResponse);
         JsonNode peopleNode = jsonNode.get("people");
+
         List<Astronaut> astronautList = new ArrayList<>();
 
         for (JsonNode astronautNode : peopleNode) {
             String name = astronautNode.get("name").asText();
+            String craftName = astronautNode.get("craft").asText();
+
+            craftService.saveCraft(Craft.builder().name(craftName).build());
 
             String[] nameParts = name.split(" ");
             String firstName = nameParts[0];
@@ -66,6 +84,16 @@ public class Controller {
 
         return astronautService.saAllAstronauts(astronautList).toString();
     }
+
+    Astronaut astronaut = new Astronaut();
+
+    @GetMapping("/saveAstronauts1")
+    public ModelAndView card() {
+        ModelAndView modelAndView = new ModelAndView("card");
+        modelAndView.addObject("astronaut", astronaut);
+        return modelAndView;
+    }
+
     @GetMapping("/deleteAstronaut")
     public Astronaut delete(@RequestParam String name,
                             @RequestParam String lastName) {

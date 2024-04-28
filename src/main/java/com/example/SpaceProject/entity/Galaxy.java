@@ -20,5 +20,5 @@ public class Galaxy {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String galaxyName;
+    private String name;
 }

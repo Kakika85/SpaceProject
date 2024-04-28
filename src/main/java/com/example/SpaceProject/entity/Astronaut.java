@@ -1,9 +1,6 @@
 package com.example.SpaceProject.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jdk.jfr.DataAmount;
 import lombok.*;
 
@@ -19,4 +16,8 @@ public class Astronaut {
     private Long id;
     private String firstName;
     private String lastName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "craft_id")
+    private Craft craft;
 }

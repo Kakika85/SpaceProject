@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -65,10 +66,12 @@ public class Controller {
 
         return astronautService.saAllAstronauts(astronautList).toString();
     }
-    @GetMapping("/deleteAstronauts")
-    public Astronaut delete(@PathVariable String name,
-                            @PathVariable String lastName) {
+    @GetMapping("/deleteAstronaut")
+    public Astronaut delete(@RequestParam String name,
+                            @RequestParam String lastName) {
         Astronaut astronaut = Astronaut.builder().firstName(name).lastName(lastName).build();
+        astronautService.deleteAstronautByName(name, lastName);
+        //todo localhost:8081/deleteAstronaut?name=Jozko&lastName=Mrkvicka
 
         return astronaut;
     }

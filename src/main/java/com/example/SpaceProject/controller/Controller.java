@@ -13,6 +13,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +35,7 @@ import static org.hibernate.query.sqm.tree.SqmNode.log;
 @RequiredArgsConstructor
 public class Controller {
 
+    private static final Logger log = LoggerFactory.getLogger(Controller.class);
     private final AstronautService astronautService;
     private final UtilServices utilService;
     private final CraftService craftService;
@@ -76,10 +81,10 @@ public class Controller {
             String lastName = nameParts[1];
 
             Astronaut astronaut = Astronaut.builder()
-                .firstName(firstName)
-                .lastName(lastName)
-                .craft(craft)
-                .build();
+                    .firstName(firstName)
+                    .lastName(lastName)
+                    .craft(craft)
+                    .build();
 
             astronautList.add(astronaut);
 
@@ -112,16 +117,10 @@ public class Controller {
     public Astronaut assignAstronautToCraft(@RequestBody AssignAstronautToCraft body) {
         Astronaut astronaut = astronautService.findAstronautByName(body.getFirstName(), body.getLastName());
         Craft craft = craftService.findCraftByName(body.getCraftName());
-        if (craft.getAstronauts().contains(astronaut)){
+        if (craft.getAstronauts().contains(astronaut)) {
             throw new RuntimeException("This astronaut is already assigned to this craft.");
         }
+        return craftService.moveAstronaut(astronaut.getId(), craft.getId());
 
-        astronaut.setCraft(craft);
-        List<Astronaut> astronautList = craft.getAstronauts();
-        astronautList.add(astronaut);
-        craft.setAstronauts(astronautList);
-        craftService.saveCraft(craft);
-
-        return astronautService.saveAstronaut(astronaut);
     }
 }

@@ -1,12 +1,13 @@
 package com.example.SpaceProject.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -16,7 +17,10 @@ import lombok.NoArgsConstructor;
 
 public class Craft {
     @Id
-    @Generated
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String craftName;
+    private String name;
+
+    @OneToMany(mappedBy = "craft", cascade = CascadeType.ALL)
+    private List<Astronaut> astronauts;
 }

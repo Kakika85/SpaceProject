@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GalaxyRepository extends JpaRepository<Galaxy, Long> {
-    Galaxy findByGalaxyName(String name);
+    Galaxy findByName(String name);
 }

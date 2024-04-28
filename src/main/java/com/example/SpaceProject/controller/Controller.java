@@ -3,19 +3,17 @@ package com.example.SpaceProject.controller;
 import com.example.SpaceProject.entity.AssignAstronautToCraft;
 import com.example.SpaceProject.entity.Astronaut;
 import com.example.SpaceProject.entity.Craft;
-import com.example.SpaceProject.repository.AstronautRepository;
-import com.example.SpaceProject.repository.CraftRepository;
 import com.example.SpaceProject.service.AstronautService;
 import com.example.SpaceProject.service.CraftService;
 import com.example.SpaceProject.service.UtilServices;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,12 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hibernate.query.sqm.tree.SqmNode.log;
-
 @RestController
 @RequiredArgsConstructor
 public class Controller {
 
+    private static final Logger log = LoggerFactory.getLogger(Controller.class);
     private final AstronautService astronautService;
     private final UtilServices utilService;
     private final CraftService craftService;
@@ -77,10 +74,10 @@ public class Controller {
             String lastName = nameParts[1];
 
             Astronaut astronaut = Astronaut.builder()
-                .firstName(firstName)
-                .lastName(lastName)
-                .craft(craft)
-                .build();
+                    .firstName(firstName)
+                    .lastName(lastName)
+                    .craft(craft)
+                    .build();
 
             astronautList.add(astronaut);
 
@@ -113,16 +110,10 @@ public class Controller {
     public Astronaut assignAstronautToCraft(@RequestBody AssignAstronautToCraft body) {
         Astronaut astronaut = astronautService.findAstronautByName(body.getFirstName(), body.getLastName());
         Craft craft = craftService.findCraftByName(body.getCraftName());
-        if (craft.getAstronauts().contains(astronaut)){
+        if (craft.getAstronauts().contains(astronaut)) {
             throw new RuntimeException("This astronaut is already assigned to this craft.");
         }
+        return craftService.moveAstronaut(astronaut.getId(), craft.getId());
 
-        astronaut.setCraft(craft);
-        List<Astronaut> astronautList = craft.getAstronauts();
-        astronautList.add(astronaut);
-        craft.setAstronauts(astronautList);
-        craftService.saveCraft(craft);
-
-        return astronautService.saveAstronaut(astronaut);
     }
 }
